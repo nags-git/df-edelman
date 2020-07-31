@@ -1,0 +1,28 @@
+{
+	"name": "oncsvfileuploaded",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Started",
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "ingestdata-pipe",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"pipelinefilename": "@triggerBody().fileName"
+				}
+			}
+		],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/submissions/blobs/",
+			"blobPathEndsWith": ".csv",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/2a3390b4-6a54-48b5-812a-35320c2fab9c/resourceGroups/dev-dlaas-rg/providers/Microsoft.Storage/storageAccounts/devdlaasstorage",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}

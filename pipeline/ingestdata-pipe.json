@@ -1,0 +1,51 @@
+{
+	"name": "ingestdata-pipe",
+	"properties": {
+		"activities": [
+			{
+				"name": "ingestdatadataflow",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "movecsvtosqldw",
+						"type": "DataFlowReference",
+						"parameters": {
+							"filename": {
+								"value": "'@{pipeline().parameters.pipelinefilename}'",
+								"type": "Expression"
+							}
+						}
+					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "az_blob_strg",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "publisheddata"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					}
+				}
+			}
+		],
+		"parameters": {
+			"pipelinefilename": {
+				"type": "string",
+				"defaultValue": "air.csv"
+			}
+		},
+		"annotations": []
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
