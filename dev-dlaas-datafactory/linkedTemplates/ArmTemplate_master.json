@@ -1,0 +1,70 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "dev-dlaas-datafactory"
+		},
+		"az_blob_strg_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'az_blob_strg'"
+		},
+		"az_synp_sqlls_connectionString": {
+			"type": "secureString",
+			"metadata": "Secure string for 'connectionString' of 'az_synp_sqlls'"
+		},
+		"oncsvfileuploaded_properties_ingestdata-pipe_parameters_pipelinefilename": {
+			"type": "string",
+			"defaultValue": "@triggerBody().fileName"
+		},
+		"oncsvfileuploaded_properties_typeProperties_scope": {
+			"type": "string",
+			"defaultValue": "/subscriptions/2a3390b4-6a54-48b5-812a-35320c2fab9c/resourceGroups/dev-dlaas-rg/providers/Microsoft.Storage/storageAccounts/devdlaasstorage"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"az_blob_strg_connectionString": {
+						"value": "[parameters('az_blob_strg_connectionString')]"
+					},
+					"az_synp_sqlls_connectionString": {
+						"value": "[parameters('az_synp_sqlls_connectionString')]"
+					},
+					"oncsvfileuploaded_properties_ingestdata-pipe_parameters_pipelinefilename": {
+						"value": "[parameters('oncsvfileuploaded_properties_ingestdata-pipe_parameters_pipelinefilename')]"
+					},
+					"oncsvfileuploaded_properties_typeProperties_scope": {
+						"value": "[parameters('oncsvfileuploaded_properties_typeProperties_scope')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
