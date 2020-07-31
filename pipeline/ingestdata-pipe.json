@@ -32,9 +32,9 @@
 						},
 						"folderPath": "publisheddata"
 					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
+					"integrationRuntime": {
+						"referenceName": "azure-ir",
+						"type": "IntegrationRuntimeReference"
 					}
 				}
 			}
