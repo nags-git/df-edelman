@@ -68,9 +68,9 @@
 								},
 								"folderPath": "publisheddata"
 							},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
+							"integrationRuntime": {
+								"referenceName": "azure-ir",
+								"type": "IntegrationRuntimeReference"
 							}
 						}
 					}
@@ -85,7 +85,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/movecsvtosqldw')]",
-				"[concat(variables('factoryId'), '/linkedServices/az_blob_strg')]"
+				"[concat(variables('factoryId'), '/linkedServices/az_blob_strg')]",
+				"[concat(variables('factoryId'), '/integrationRuntimes/azure-ir')]"
 			]
 		},
 		{
@@ -303,6 +304,25 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/azure-ir')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "Managed",
+				"typeProperties": {
+					"computeProperties": {
+						"location": "AutoResolve",
+						"dataFlowProperties": {
+							"computeType": "General",
+							"coreCount": 8,
+							"timeToLive": 30
+						}
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/movecsvtosqldw')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -332,7 +352,7 @@
 							"name": "assignvaluetonull"
 						}
 					],
-					"script": "parameters{\n\tfilename as string\n}\nsource(output(\n\t\tyear as short,\n\t\t{ month} as short,\n\t\tcarrier as string,\n\t\tcarrier_name as string,\n\t\tairport as string,\n\t\tairport_name as string,\n\t\tarr_flights as short,\n\t\tarr_del15 as short,\n\t\tcarrier_ct as double,\n\t\t{ weather_ct} as double,\n\t\tnas_ct as double,\n\t\tsecurity_ct as double,\n\t\tlate_aircraft_ct as double,\n\t\tarr_cancelled as short,\n\t\tarr_diverted as short,\n\t\t{ arr_delay} as short,\n\t\t{ carrier_delay} as short,\n\t\tweather_delay as short,\n\t\tnas_delay as short,\n\t\tsecurity_delay as short,\n\t\tlate_aircraft_delay as short\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\twildcardPaths:[($filename)],\n\tpartitionBy('hash', 1000,\n\t\tyear\n\t)) ~> srccsv\nsrccsv derive(arr_del15 = iif(isNull(arr_del15),toInteger(1000),toInteger(arr_del15)),\n\tpartitionBy('hash', 1000,\n\t\tyear\n\t)) ~> assignvaluetonull\nassignvaluetonull sink(input(\n\t\tyear as integer,\n\t\tmonth as integer,\n\t\tcarrier as string,\n\t\tcarrier_name as string,\n\t\tairport as string,\n\t\tairport_name as string,\n\t\tarr_flights as integer,\n\t\tarr_del15 as integer,\n\t\tcarrier_ct as decimal(5,2),\n\t\tweather_ct as decimal(3,2),\n\t\tnas_ct as decimal(5,2),\n\t\tsecurity_ct as decimal(3,2),\n\t\tlate_aircraft_ct as decimal(4,2),\n\t\tarr_cancelled as integer,\n\t\tarr_diverted as integer,\n\t\tarr_delay as integer,\n\t\tcarrier_delay as integer,\n\t\tweather_delay as integer,\n\t\tnas_delay as integer,\n\t\tsecurity_delay as integer,\n\t\tlate_aircraft_delay as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tstaged: true,\n\tbatchSize: 20000,\n\tmapColumn(\n\t\tyear,\n\t\tmonth = { month},\n\t\tcarrier,\n\t\tcarrier_name,\n\t\tairport,\n\t\tairport_name,\n\t\tarr_flights,\n\t\tarr_del15,\n\t\tcarrier_ct,\n\t\tweather_ct = { weather_ct},\n\t\tnas_ct,\n\t\tsecurity_ct,\n\t\tlate_aircraft_ct,\n\t\tarr_cancelled,\n\t\tarr_diverted,\n\t\tarr_delay = { arr_delay},\n\t\tcarrier_delay = { carrier_delay},\n\t\tweather_delay,\n\t\tnas_delay,\n\t\tsecurity_delay,\n\t\tlate_aircraft_delay\n\t),\n\tpartitionBy('hash', 1000,\n\t\tyear\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> destsqldw"
+					"script": "parameters{\n\tfilename as string\n}\nsource(output(\n\t\tyear as short,\n\t\t{ month} as short,\n\t\tcarrier as string,\n\t\tcarrier_name as string,\n\t\tairport as string,\n\t\tairport_name as string,\n\t\tarr_flights as short,\n\t\tarr_del15 as short,\n\t\tcarrier_ct as double,\n\t\t{ weather_ct} as double,\n\t\tnas_ct as double,\n\t\tsecurity_ct as double,\n\t\tlate_aircraft_ct as double,\n\t\tarr_cancelled as short,\n\t\tarr_diverted as short,\n\t\t{ arr_delay} as short,\n\t\t{ carrier_delay} as short,\n\t\tweather_delay as short,\n\t\tnas_delay as short,\n\t\tsecurity_delay as short,\n\t\tlate_aircraft_delay as short\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\twildcardPaths:[($filename)]) ~> srccsv\nsrccsv derive(arr_del15 = iif(isNull(arr_del15),toInteger(1000),toInteger(arr_del15))) ~> assignvaluetonull\nassignvaluetonull sink(input(\n\t\tyear as integer,\n\t\tmonth as integer,\n\t\tcarrier as string,\n\t\tcarrier_name as string,\n\t\tairport as string,\n\t\tairport_name as string,\n\t\tarr_flights as integer,\n\t\tarr_del15 as integer,\n\t\tcarrier_ct as decimal(5,2),\n\t\tweather_ct as decimal(3,2),\n\t\tnas_ct as decimal(5,2),\n\t\tsecurity_ct as decimal(3,2),\n\t\tlate_aircraft_ct as decimal(4,2),\n\t\tarr_cancelled as integer,\n\t\tarr_diverted as integer,\n\t\tarr_delay as integer,\n\t\tcarrier_delay as integer,\n\t\tweather_delay as integer,\n\t\tnas_delay as integer,\n\t\tsecurity_delay as integer,\n\t\tlate_aircraft_delay as integer\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tdeletable:false,\n\tinsertable:true,\n\tupdateable:false,\n\tupsertable:false,\n\tformat: 'table',\n\tstaged: true,\n\tbatchSize: 20000,\n\tmapColumn(\n\t\tyear,\n\t\tmonth = { month},\n\t\tcarrier,\n\t\tcarrier_name,\n\t\tairport,\n\t\tairport_name,\n\t\tarr_flights,\n\t\tarr_del15,\n\t\tcarrier_ct,\n\t\tweather_ct = { weather_ct},\n\t\tnas_ct,\n\t\tsecurity_ct,\n\t\tlate_aircraft_ct,\n\t\tarr_cancelled,\n\t\tarr_diverted,\n\t\tarr_delay = { arr_delay},\n\t\tcarrier_delay = { carrier_delay},\n\t\tweather_delay,\n\t\tnas_delay,\n\t\tsecurity_delay,\n\t\tlate_aircraft_delay\n\t),\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> destsqldw"
 				}
 			},
 			"dependsOn": [
