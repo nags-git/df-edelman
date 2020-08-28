@@ -3,13 +3,23 @@
 	"properties": {
 		"annotations": [],
 		"runtimeState": "Started",
-		"pipelines": [],
+		"pipelines": [
+			{
+				"pipelineReference": {
+					"referenceName": "ingestdata-pipe",
+					"type": "PipelineReference"
+				},
+				"parameters": {
+					"pipelinefilename": "airline.csv"
+				}
+			}
+		],
 		"type": "BlobEventsTrigger",
 		"typeProperties": {
-			"blobPathBeginsWith": "/submissions/blobs/",
+			"blobPathBeginsWith": "/submissions/blobs/airline",
 			"blobPathEndsWith": ".csv",
 			"ignoreEmptyBlobs": true,
-			"scope": "/subscriptions/2a3390b4-6a54-48b5-812a-35320c2fab9c/resourceGroups/dev-dlaas-rg/providers/Microsoft.Storage/storageAccounts/devdlaasstorage",
+			"scope": "/subscriptions/2a3390b4-6a54-48b5-812a-35320c2fab9c/resourceGroups/sbt-dlaas-rg/providers/Microsoft.Storage/storageAccounts/sbtdlaasstorage",
 			"events": [
 				"Microsoft.Storage.BlobCreated"
 			]
