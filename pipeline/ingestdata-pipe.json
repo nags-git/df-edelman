@@ -17,10 +17,7 @@
 				"typeProperties": {
 					"dataflow": {
 						"referenceName": "movecsvtosqldwh",
-						"type": "DataFlowReference",
-						"parameters": {
-							"filename": "$filename"
-						}
+						"type": "DataFlowReference"
 					},
 					"staging": {
 						"linkedService": {
