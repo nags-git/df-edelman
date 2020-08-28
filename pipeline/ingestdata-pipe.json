@@ -15,6 +15,16 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"dataflow": {
+						"referenceName": "movecsvtosqldwh",
+						"type": "DataFlowReference",
+						"parameters": {
+							"filename": {
+								"value": "'@{pipeline().parameters.pipelinefilename}'",
+								"type": "Expression"
+							}
+						}
+					},
 					"staging": {
 						"linkedService": {
 							"referenceName": "az_blob_strg",
@@ -22,9 +32,9 @@
 						},
 						"folderPath": "publisheddata"
 					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
+					"integrationRuntime": {
+						"referenceName": "azure-ir",
+						"type": "IntegrationRuntimeReference"
 					}
 				}
 			}
