@@ -15,16 +15,6 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"dataflow": {
-						"referenceName": "movecsvtosqldw",
-						"type": "DataFlowReference",
-						"parameters": {
-							"filename": {
-								"value": "'@{pipeline().parameters.pipelinefilename}'",
-								"type": "Expression"
-							}
-						}
-					},
 					"staging": {
 						"linkedService": {
 							"referenceName": "az_blob_strg",
