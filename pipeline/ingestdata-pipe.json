@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "movecsvtosqldwh",
+						"referenceName": "movecsvtosqldw",
 						"type": "DataFlowReference",
 						"parameters": {
 							"filename": {
@@ -32,9 +32,9 @@
 						},
 						"folderPath": "publisheddata"
 					},
-					"integrationRuntime": {
-						"referenceName": "azure-ir",
-						"type": "IntegrationRuntimeReference"
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
 					}
 				}
 			}
