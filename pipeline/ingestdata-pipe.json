@@ -42,7 +42,7 @@
 		"parameters": {
 			"pipelinefilename": {
 				"type": "string",
-				"defaultValue": "air.csv"
+				"defaultValue": "airline.csv"
 			}
 		},
 		"annotations": []
