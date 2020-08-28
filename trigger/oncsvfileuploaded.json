@@ -8,6 +8,9 @@
 				"pipelineReference": {
 					"referenceName": "ingestdata-pipe",
 					"type": "PipelineReference"
+				},
+				"parameters": {
+					"pipelinefilename": "airline.csv"
 				}
 			}
 		],
