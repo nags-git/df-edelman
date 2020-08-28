@@ -1,5 +1,5 @@
 {
-	"name": "movecsvtosqldw",
+	"name": "movecsvtosqldwh",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {

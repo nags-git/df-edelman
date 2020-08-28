@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "movecsvtosqldw",
+						"referenceName": "movecsvtosqldwh",
 						"type": "DataFlowReference",
 						"parameters": {
 							"filename": {
@@ -32,9 +32,9 @@
 						},
 						"folderPath": "publisheddata"
 					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
+					"integrationRuntime": {
+						"referenceName": "azure-ir",
+						"type": "IntegrationRuntimeReference"
 					}
 				}
 			}
@@ -42,7 +42,7 @@
 		"parameters": {
 			"pipelinefilename": {
 				"type": "string",
-				"defaultValue": "air.csv"
+				"defaultValue": "airline.csv"
 			}
 		},
 		"annotations": []
