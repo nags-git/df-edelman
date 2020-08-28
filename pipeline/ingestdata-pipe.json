@@ -19,10 +19,7 @@
 						"referenceName": "movecsvtosqldwh",
 						"type": "DataFlowReference",
 						"parameters": {
-							"filename": {
-								"value": "'@{pipeline().parameters.pipelinefilename}'",
-								"type": "Expression"
-							}
+							"filename": "$filename"
 						}
 					},
 					"staging": {
