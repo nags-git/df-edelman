@@ -1,0 +1,27 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "sbtdlaasdatafactory"
+		},
+		"az_blob_strg_connectionString": {
+			"value": ""
+		},
+		"az_synp_sqlls_connectionString": {
+			"value": ""
+		},
+		"oncsvfileuploaded_properties_ingestdata-pipe_parameters_pipelinefilename": {
+			"value": "airline.csv"
+		},
+		"oncsvfileuploaded_properties_typeProperties_scope": {
+			"value": "/subscriptions/2a3390b4-6a54-48b5-812a-35320c2fab9c/resourceGroups/sbt-dlaas-rg/providers/Microsoft.Storage/storageAccounts/sbtdlaasstorage"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
